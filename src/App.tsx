@@ -279,9 +279,13 @@ export default function App() {
                   <a href="#kontakt" className="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold rounded-xl transition-all hover:scale-105 flex items-center gap-2">
                     Kontaktieren <MessageSquare className="w-5 h-5" />
                   </a>
-                  <button className="px-8 py-4 bg-slate-900 border border-slate-800 hover:border-slate-700 font-bold rounded-xl transition-all flex items-center gap-2">
-                    Lebenslauf Laden <Download className="w-5 h-5" />
-                  </button>
+                  <a
+                    href="Lebenslauf.pdf"
+                    download="Reza-Heshmati-Lebenslauf.pdf"
+                    className="px-8 py-4 bg-slate-900 border border-slate-800 hover:border-slate-700 font-bold rounded-xl transition-all flex items-center gap-2"
+                  >
+                    Lebenslauf laden <Download className="w-5 h-5" />
+                  </a>
                 </div>
               </motion.div>
             </div>
