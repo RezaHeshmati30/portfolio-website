@@ -21,10 +21,10 @@ import {
   Globe,
   Terminal,
   Cpu,
-  Palette,
-  Cloud
+  Palette
 } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
+import profileImage from "./assets/profile.png";
 
 // --- Components ---
 
@@ -145,6 +145,11 @@ export default function App() {
     }
   ];
 
+  const socialLinks = {
+    github: "https://github.com/RezaHeshmati30",
+    linkedin: "https://www.linkedin.com/in/reza-heshmati-28a177b0"
+  };
+
   return (
     <div className="min-h-screen">
       {/* --- Navigation --- */}
@@ -222,13 +227,11 @@ export default function App() {
                 <div className="absolute inset-0 bg-emerald-500 rounded-3xl rotate-6 -z-10 opacity-20" />
                 <div className="absolute inset-0 bg-blue-500 rounded-3xl -rotate-3 -z-10 opacity-20" />
                 <div className="w-full h-full bg-slate-900 border-2 border-slate-800 rounded-3xl overflow-hidden flex items-center justify-center relative">
-                  {/* Placeholder for Profile Image */}
                   <div className="text-slate-700 flex flex-col items-center">
                     <img 
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300" 
-                      alt="Profile Placeholder" 
-                      className="w-full h-full object-cover opacity-80"
-                      referrerPolicy="no-referrer"
+                      src={profileImage} 
+                      alt="Portrait von Reza Heshmati" 
+                      className="w-full h-full object-cover"
                     />
                     <div className="absolute bottom-4 left-4 right-4 p-2 bg-slate-900/80 backdrop-blur-sm border border-slate-700 rounded-lg text-center">
                       <p className="text-xs font-bold text-white">Reza Heshmati</p>
@@ -459,10 +462,22 @@ export default function App() {
               </div>
 
               <div className="mt-16 flex gap-4">
-                <a href="#" className="w-12 h-12 bg-slate-950/10 rounded-xl flex items-center justify-center hover:bg-slate-950/20 transition-all">
+                <a
+                  href={socialLinks.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub-Profil von Reza Heshmati öffnen"
+                  className="w-12 h-12 bg-slate-950/10 rounded-xl flex items-center justify-center hover:bg-slate-950/20 transition-all"
+                >
                   <Github className="w-6 h-6" />
                 </a>
-                <a href="#" className="w-12 h-12 bg-slate-950/10 rounded-xl flex items-center justify-center hover:bg-slate-950/20 transition-all">
+                <a
+                  href={socialLinks.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn-Profil von Reza Heshmati öffnen"
+                  className="w-12 h-12 bg-slate-950/10 rounded-xl flex items-center justify-center hover:bg-slate-950/20 transition-all"
+                >
                   <Linkedin className="w-6 h-6" />
                 </a>
               </div>
@@ -493,17 +508,16 @@ export default function App() {
 
       {/* --- Footer --- */}
       <footer className="py-12 border-t border-slate-900">
-        <div className="container mx-auto px-6 flex flex-col md:row justify-between items-center gap-6">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-slate-500 text-sm italic">
             © {new Date().getFullYear()} Reza Heshmati. Alle Rechte vorbehalten.
           </p>
           <div className="flex gap-6 text-sm text-slate-400">
-            <a href="#" className="hover:text-white transition-colors">Impressum</a>
-            <a href="#" className="hover:text-white transition-colors">Datenschutz</a>
+            <a href="impressum.html" className="hover:text-white transition-colors">Impressum</a>
+            <a href="datenschutz.html" className="hover:text-white transition-colors">Datenschutz</a>
           </div>
         </div>
       </footer>
     </div>
   );
 }
-
