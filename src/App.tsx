@@ -16,6 +16,8 @@ import {
   ChevronRight, 
   Download,
   ArrowUp,
+  Menu,
+  X,
   MapPin,
   Send,
   MessageSquare,
@@ -45,6 +47,7 @@ const SectionHeading = ({ children, icon: Icon, subtitle }: { children: React.Re
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -54,9 +57,23 @@ export default function App() {
 
   const scrollToTop = (event?: React.MouseEvent<HTMLElement>) => {
     event?.preventDefault();
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
     window.history.replaceState(null, "", window.location.pathname);
   };
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
 
   const experiences = [
     {
@@ -160,6 +177,8 @@ export default function App() {
     linkedin: "https://www.linkedin.com/in/reza-heshmati-28a177b0"
   };
 
+  const navItems = ["Über mich", "Erfahrung", "Skills", "Projekte", "Kontakt"];
+
   return (
     <div className="min-h-screen">
       {/* --- Navigation --- */}
@@ -176,8 +195,8 @@ export default function App() {
             <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center text-slate-900">RH</div>
             <span className="hidden sm:inline">Reza Heshmati</span>
           </motion.a>
-          <div className="flex gap-8 text-sm font-medium">
-            {["Über mich", "Erfahrung", "Skills", "Projekte", "Kontakt"].map((item) => (
+          <div className="hidden gap-8 text-sm font-medium md:flex">
+            {navItems.map((item) => (
               <a 
                 key={item} 
                 href={`#${item.toLowerCase().replace(" ", "-")}`} 
@@ -187,7 +206,44 @@ export default function App() {
               </a>
             ))}
           </div>
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            aria-label={mobileMenuOpen ? "Navigation schließen" : "Navigation öffnen"}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
+            className="md:hidden flex h-11 w-11 items-center justify-center rounded-xl border border-slate-800/80 bg-slate-950/70 text-slate-200 transition-colors hover:border-emerald-500/40 hover:text-emerald-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              id="mobile-navigation"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.18 }}
+              className="md:hidden"
+            >
+              <div className="container mx-auto px-6 pt-4">
+                <div className="rounded-2xl border border-slate-800/80 bg-slate-950/95 p-2 shadow-2xl shadow-slate-950/40 backdrop-blur-md">
+                  {navItems.map((item) => (
+                    <a
+                      key={item}
+                      href={`#${item.toLowerCase().replace(" ", "-")}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block rounded-xl px-4 py-3 text-sm font-bold text-slate-300 transition-colors hover:bg-slate-900 hover:text-emerald-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                    >
+                      {item}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* --- Hero Section --- */}
