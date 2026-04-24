@@ -126,22 +126,22 @@ export default function App() {
 
   const projects = [
     {
-      title: "Network Monitoring Dashboard",
-      description: "Eine Realtime-Analyse-Plattform für Netzwerkinfrastrukturen, gebaut mit React und Node.js.",
-      tags: ["React", "Express", "Chart.js", "Socket.io"],
-      link: "#"
+      title: "SchulPlaner OS",
+      description: "Web-App für Schulorganisation mit Authentifizierung, MongoDB-Datenbank sowie E-Mail- und Push-Benachrichtigungen.",
+      tags: ["React", "TypeScript", "Express", "MongoDB", "JWT"],
+      link: "https://vertretungsplan-9c59.onrender.com"
     },
     {
-      title: "IT-Support Ticketing System",
-      description: "Webbasiertes System zur Verwaltung von Support-Anfragen mit Priorisierung und Zuweisung.",
-      tags: ["MongoDB", "Node.js", "Tailwind"],
-      link: "#"
+      title: "CryptSend",
+      description: "Sichere File-Sharing-Plattform mit React-Frontend, Express-Backend, PostgreSQL/Neon und Cloudflare R2 Storage.",
+      tags: ["React", "TypeScript", "Express", "PostgreSQL", "R2"],
+      link: "https://crypt-send.vercel.app"
     },
     {
-      title: "Personal Automation Scripts",
-      description: "Sammlung von PowerShell und Python Skripten zur Automatisierung von IT-Maintenance Aufgaben.",
-      tags: ["PowerShell", "Python", "Automation"],
-      link: "#"
+      title: "BahnZeit",
+      description: "Moderne Web-App für Bahnzeiten und Reiseinformationen, gebaut mit React, TypeScript, Vite und Tailwind CSS.",
+      tags: ["React", "TypeScript", "Vite", "Tailwind"],
+      link: "https://bahn-zeit.vercel.app"
     }
   ];
 
@@ -420,8 +420,14 @@ export default function App() {
                   <p className="text-slate-400 text-sm mb-6 leading-relaxed">
                     {project.description}
                   </p>
-                  <a href={project.link} className="inline-flex items-center gap-2 text-sm font-bold text-emerald-400 hover:text-emerald-300">
-                    Details ansehen <ExternalLink className="w-4 h-4" />
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${project.title} live öffnen`}
+                    className="inline-flex items-center gap-2 text-sm font-bold text-emerald-400 hover:text-emerald-300"
+                  >
+                    Projekt öffnen <ExternalLink className="w-4 h-4" />
                   </a>
                 </div>
               </motion.div>
