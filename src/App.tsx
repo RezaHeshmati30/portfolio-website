@@ -15,6 +15,7 @@ import {
   ExternalLink, 
   ChevronRight, 
   Download,
+  ArrowUp,
   MapPin,
   Send,
   MessageSquare,
@@ -23,7 +24,7 @@ import {
   Cpu,
   Palette
 } from "lucide-react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import profileImage from "./assets/profile.png";
 
 // --- Components ---
@@ -50,6 +51,12 @@ export default function App() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const scrollToTop = (event?: React.MouseEvent<HTMLElement>) => {
+    event?.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.history.replaceState(null, "", window.location.pathname);
+  };
 
   const experiences = [
     {
@@ -129,19 +136,22 @@ export default function App() {
       title: "SchulPlaner OS",
       description: "Web-App für Schulorganisation mit Authentifizierung, MongoDB-Datenbank sowie E-Mail- und Push-Benachrichtigungen.",
       tags: ["React", "TypeScript", "Express", "MongoDB", "JWT"],
-      link: "https://vertretungsplan-9c59.onrender.com"
+      link: "https://vertretungsplan-9c59.onrender.com",
+      preview: "https://vertretungsplan-9c59.onrender.com"
     },
     {
       title: "CryptSend",
       description: "Sichere File-Sharing-Plattform mit React-Frontend, Express-Backend, PostgreSQL/Neon und Cloudflare R2 Storage.",
       tags: ["React", "TypeScript", "Express", "PostgreSQL", "R2"],
-      link: "https://crypt-send.vercel.app"
+      link: "https://crypt-send.vercel.app",
+      preview: "https://crypt-send.vercel.app"
     },
     {
       title: "BahnZeit",
       description: "Moderne Web-App für Bahnzeiten und Reiseinformationen, gebaut mit React, TypeScript, Vite und Tailwind CSS.",
       tags: ["React", "TypeScript", "Vite", "Tailwind"],
-      link: "https://bahn-zeit.vercel.app"
+      link: "https://bahn-zeit.vercel.app",
+      preview: "https://bahn-zeit.vercel.app"
     }
   ];
 
@@ -153,16 +163,19 @@ export default function App() {
   return (
     <div className="min-h-screen">
       {/* --- Navigation --- */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "py-4 glass-morphism" : "py-6 bg-transparent"}`}>
+      <nav className={`fixed top-0 w-full z-50 border-b transition-[padding,background-color,box-shadow,border-color] duration-300 ${scrolled ? "py-4 bg-slate-950/85 border-slate-800/70 shadow-lg shadow-slate-950/20 backdrop-blur-md" : "py-6 bg-transparent border-transparent shadow-none"}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
-          <motion.div 
+          <motion.a
+            href="#hero"
+            onClick={scrollToTop}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-2xl font-display font-bold text-white flex items-center gap-2"
+            className="text-2xl font-display font-bold text-white flex items-center gap-2 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            aria-label="Zur Startseite springen"
           >
             <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center text-slate-900">RH</div>
             <span className="hidden sm:inline">Reza Heshmati</span>
-          </motion.div>
+          </motion.a>
           <div className="flex gap-8 text-sm font-medium">
             {["Über mich", "Erfahrung", "Skills", "Projekte", "Kontakt"].map((item) => (
               <a 
@@ -406,10 +419,31 @@ export default function App() {
                 whileHover={{ y: -10 }}
                 className="glass-morphism group rounded-3xl overflow-hidden"
               >
-                <div className="h-48 bg-slate-800 relative flex items-center justify-center p-8 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-blue-500/20 group-hover:opacity-100 transition-opacity" />
-                  <Code2 className="w-16 h-16 text-slate-700 font-bold group-hover:scale-110 transition-transform" />
-                </div>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${project.title} live öffnen`}
+                  className="block h-48 bg-slate-950 relative overflow-hidden border-b border-slate-800/70"
+                >
+                  <div className="absolute inset-x-0 top-0 z-10 flex items-center gap-1.5 border-b border-slate-800/80 bg-slate-950/95 px-4 py-2">
+                    <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                    <span className="ml-3 truncate text-[11px] text-slate-500">{project.link.replace("https://", "")}</span>
+                  </div>
+                  <iframe
+                    src={project.preview}
+                    title={`${project.title} Vorschau`}
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
+                    className="absolute left-0 top-9 h-[520px] w-[150%] origin-top-left scale-[0.67] border-0 bg-slate-900 pointer-events-none"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-70" />
+                  <div className="absolute bottom-3 right-3 rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-1 text-xs font-bold text-emerald-300 opacity-0 transition-opacity group-hover:opacity-100">
+                    Live öffnen
+                  </div>
+                </a>
                 <div className="p-6">
                   <div className="flex gap-2 mb-4">
                     {project.tags.map(tag => (
@@ -524,6 +558,24 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      <AnimatePresence>
+        {scrolled && (
+          <motion.button
+            type="button"
+            onClick={() => scrollToTop()}
+            aria-label="Zurück zum Seitenanfang"
+            initial={{ opacity: 0, y: 18, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 18, scale: 0.9 }}
+            whileHover={{ y: -3 }}
+            whileTap={{ scale: 0.95 }}
+            className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/25 transition-colors hover:bg-emerald-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200"
+          >
+            <ArrowUp className="h-5 w-5" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
